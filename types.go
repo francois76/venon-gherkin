@@ -67,7 +67,6 @@ type Tests struct {
 // testcases.
 type TestSuite struct {
 	XMLName      xml.Name   `xml:"testsuite" json:"-" yaml:"-"`
-	Disabled     int        `xml:"disabled,attr,omitempty" json:"disabled" yaml:""`
 	Errors       int        `xml:"errors,attr,omitempty" json:"errors" yaml:"-"`
 	Failures     int        `xml:"failures,attr,omitempty" json:"failures" yaml:"-"`
 	Hostname     string     `xml:"hostname,attr,omitempty" json:"hostname" yaml:"-"`

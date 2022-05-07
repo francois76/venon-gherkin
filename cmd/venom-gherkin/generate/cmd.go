@@ -3,8 +3,10 @@ package generate
 import (
 	"bytes"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"log"
+	"strings"
 
 	gherkin_parser "github.com/cucumber/common/gherkin/go/v23"
 	"github.com/francois76/venom-gherkin/transform"
@@ -81,7 +83,7 @@ func generateFiles() {
 			log.Fatal(err)
 		}
 
-		err2 := ioutil.WriteFile(fmt.Sprint(outputDir, "/", file.Name()), data, 0)
+		err2 := ioutil.WriteFile(fmt.Sprint(outputDir, "/", strings.Replace(file.Name(), ".feature", ".venom.yaml", 1)), data, fs.FileMode(0755))
 
 		if err2 != nil {
 
