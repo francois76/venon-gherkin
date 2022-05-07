@@ -78,7 +78,7 @@ func generateFiles() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		data, err := yaml.Marshal(transform.TransformFeature(gherkinDocument))
+		data, err := yaml.Marshal(transform.TransformTestSuite(gherkinDocument))
 		if err != nil {
 			log.Fatal(err)
 		}
