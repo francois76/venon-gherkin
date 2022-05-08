@@ -61,6 +61,6 @@ func generateFiles() {
 		if file.IsDir() {
 			continue
 		}
-		process.ProcessGherkinFile(fmt.Sprint(inputDir, "/", file.Name()), outputDir, file.Name())
+		process.ProcessGherkinFile(inputDir, outputDir, file.Name())
 	}
 }
