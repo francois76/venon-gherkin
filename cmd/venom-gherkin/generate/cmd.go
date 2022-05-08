@@ -5,7 +5,10 @@ import (
 	"io/ioutil"
 	"log"
 
+	cucumber "github.com/cucumber/common/messages/go/v18"
+	"github.com/francois76/venom-gherkin/generator"
 	"github.com/francois76/venom-gherkin/process"
+	"github.com/francois76/venom-gherkin/template"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )
@@ -53,22 +56,28 @@ func initFromCommandArguments(f *pflag.Flag) {
 func generateFiles() {
 	fmt.Printf("Generate files from %s to %s\n", inputDir, outputDir)
 
-	fileProcessorFunc := func(in string, singleProcessor func(inputDir string, outputDir string, fileName string)) {
+	fileProcessorFunc := func(in string, singleProcessor func(inputDir string, outputDir string, fileName string) interface{}) map[string]interface{} {
 		files, err := ioutil.ReadDir(in)
 		if err != nil {
 			log.Fatal(err)
 		}
-
+		processedFiles := map[string]interface{}{}
 		for _, file := range files {
 			if file.IsDir() {
 				continue
 			}
-			singleProcessor(in, outputDir, file.Name())
+			processedFile := singleProcessor(in, outputDir, file.Name())
+			processedFiles[file.Name()] = processedFile
 		}
+		return processedFiles
 	}
-	// processing templates
-	fileProcessorFunc(fmt.Sprint(inputDir, "/", "templates"), process.ProcessTemplate)
-	// processing gherkin files
-	fileProcessorFunc(inputDir, process.ProcessGherkinFile)
 
+	// processing templates
+	templates := fileProcessorFunc(fmt.Sprint(inputDir, "/", "templates"), process.ProcessTemplate)
+	template.RegisterTemplates(templates)
+	// processing gherkin files
+	gherkinDocuments := fileProcessorFunc(inputDir, process.ProcessGherkinFile)
+	for fileName, gherkinDocument := range gherkinDocuments {
+		generator.GenerateGherkinDocument(fileName, outputDir, gherkinDocument.(*cucumber.GherkinDocument))
+	}
 }
