@@ -63,7 +63,7 @@ func generateFiles() {
 			if file.IsDir() {
 				continue
 			}
-			singleProcessor(inputDir, outputDir, file.Name())
+			singleProcessor(in, outputDir, file.Name())
 		}
 	}
 	// processing templates
