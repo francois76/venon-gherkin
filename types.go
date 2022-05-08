@@ -1,7 +1,6 @@
 package venom
 
 import (
-	"encoding/json"
 	"encoding/xml"
 	"strings"
 	"unicode"
@@ -101,15 +100,14 @@ type TestCase struct {
 	Failures        []Failure `xml:"failure,omitempty" json:"failures" yaml:"failures,omitempty"`
 	Name            string    `xml:"name,attr" json:"name" yaml:"name"`
 	originalName    string
-	Skipped         []Skipped         `xml:"skipped,omitempty" json:"skipped" yaml:"skipped,omitempty"`
-	Status          string            `xml:"status,attr,omitempty" json:"status" yaml:"status,omitempty"`
-	Systemout       InnerResult       `xml:"system-out,omitempty" json:"systemout" yaml:"systemout,omitempty"`
-	Systemerr       InnerResult       `xml:"system-err,omitempty" json:"systemerr" yaml:"systemerr,omitempty"`
-	Time            float64           `xml:"time,attr,omitempty" json:"time" yaml:"time,omitempty"`
-	RawTestSteps    []json.RawMessage `xml:"-" json:"steps" yaml:"steps"`
-	testSteps       []TestStep
-	TestSuiteVars   H `xml:"-" json:"-" yaml:"-"`
-	Vars            H `xml:"-" json:"-" yaml:"vars"`
+	Skipped         []Skipped   `xml:"skipped,omitempty" json:"skipped" yaml:"skipped,omitempty"`
+	Status          string      `xml:"status,attr,omitempty" json:"status" yaml:"status,omitempty"`
+	Systemout       InnerResult `xml:"system-out,omitempty" json:"systemout" yaml:"systemout,omitempty"`
+	Systemerr       InnerResult `xml:"system-err,omitempty" json:"systemerr" yaml:"systemerr,omitempty"`
+	Time            float64     `xml:"time,attr,omitempty" json:"time" yaml:"time,omitempty"`
+	TestSteps       []TestStep  `xml:"-" json:"steps" yaml:"steps"`
+	TestSuiteVars   H           `xml:"-" json:"-" yaml:"-"`
+	Vars            H           `xml:"-" json:"-" yaml:"vars"`
 	computedVars    H
 	computedInfo    []string
 	computedVerbose []string

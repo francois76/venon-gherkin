@@ -1,0 +1,14 @@
+templates:
+  - given: "setup is OK with value {value}"
+    template:
+      type: exec
+      script: cat '{value}'
+      assertions:
+      - result.systemout ShouldContainSubstring bar
+  - when: "shell return {value}"
+    template: 
+      type: exec
+      script: echo '{value}'
+  - then: "code is OK"
+    template: 
+      - result.code ShouldEqual 0

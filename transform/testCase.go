@@ -7,7 +7,8 @@ import (
 
 func TransformTestCase(child *cucumber.FeatureChild) venom.TestCase {
 	result := venom.TestCase{
-		Name: child.Scenario.Name,
+		Name:      child.Scenario.Name,
+		TestSteps: TransformTestSteps(child.Scenario.Steps),
 	}
 	return result
 }

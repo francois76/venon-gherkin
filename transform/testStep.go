@@ -7,5 +7,6 @@ import (
 
 func TransformTestStep(step *cucumber.Step) venom.TestStep {
 	result := venom.TestStep{}
+	result["what"] = step.Text
 	return result
 }
