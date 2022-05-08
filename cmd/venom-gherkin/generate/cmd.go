@@ -52,15 +52,23 @@ func initFromCommandArguments(f *pflag.Flag) {
 
 func generateFiles() {
 	fmt.Printf("Generate files from %s to %s\n", inputDir, outputDir)
-	files, err := ioutil.ReadDir(inputDir)
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	for _, file := range files {
-		if file.IsDir() {
-			continue
+	fileProcessorFunc := func(in string, singleProcessor func(inputDir string, outputDir string, fileName string)) {
+		files, err := ioutil.ReadDir(in)
+		if err != nil {
+			log.Fatal(err)
 		}
-		process.ProcessGherkinFile(inputDir, outputDir, file.Name())
+
+		for _, file := range files {
+			if file.IsDir() {
+				continue
+			}
+			singleProcessor(inputDir, outputDir, file.Name())
+		}
 	}
+	// processing templates
+	fileProcessorFunc(fmt.Sprint(inputDir, "/", "templates"), process.ProcessTemplate)
+	// processing gherkin files
+	fileProcessorFunc(inputDir, process.ProcessGherkinFile)
+
 }
